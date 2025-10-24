@@ -34,18 +34,18 @@
         const username = document.getElementById("username").value.trim();
         if (!username) { alert("Enter your name"); return; }
 
-        const socket = new SockJS('http://localhost:8090/ws');
-        console.log("first");
+        const socket = new SockJS('https://chat-application-5jrt.onrender.com/ws');
+        
         stompClient = Stomp.over(socket);
         stompClient.connect({}, (frame) => {
             setConnected(true);
-            console.log("Connected: " + frame);
+            //console.log("Connected: " + frame);
 
             stompClient.subscribe('/topic/room', (msg) => {
                 const message = JSON.parse(msg.body);
                 showMessage(message);
             });
-            console.log("second");
+            
             stompClient.send("/app/addUser", {}, JSON.stringify({sender: username, type: 'JOIN'}));
         });
     };
@@ -83,3 +83,4 @@
 </script>
 </body>
 </html>
+
